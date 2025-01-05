@@ -19,19 +19,24 @@ document.getElementById('weather-form').addEventListener('submit', async (event)
         const data = await response.json();
 
         if (response.ok) {
-            // Get the current date and time
-            const now = new Date();
-            const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-            const formattedDate = now.toLocaleDateString(undefined, options);
-            const formattedTime = now.toLocaleTimeString(undefined, { hour: 'numeric', minute: '2-digit' });
+            // Get the timezone offset (in seconds) from the API response
+            const timezoneOffset = data.timezone; // Offset in seconds
+            const utcTime = new Date().getTime() + new Date().getTimezoneOffset() * 60000; // UTC time in milliseconds
+            const localTime = new Date(utcTime + timezoneOffset * 1000); // Adjust to location's timezone
             
-            // Display the weather information
+            // Format the local time and day
+            const options = { weekday: 'long' };
+            const formattedDay = localTime.toLocaleDateString(undefined, options);
+            const formattedTime = localTime.toLocaleTimeString(undefined, { hour: 'numeric', minute: '2-digit' });
+            
+            // Populate the weather result and show the container
             resultDiv.innerHTML = `
                 <h2>Weather in ${data.name}</h2>
-                <p>As of ${formattedTime}</p>
-                <p>${formattedDate}</p>
+                <p style="margin-top: -20px; font-size: 14px; color: #aaaaaa;">${formattedDay} ${formattedTime}</p>
+                <p class="temperature">
+                    ${Math.round(data.main.temp)}<span class="superscript">°F</span>
+                </p>
                 <p>Description: ${data.weather[0].description}</p>
-                <p>Temperature: ${Math.round(data.main.temp)} °F</p>
                 <p>Humidity: ${data.main.humidity}%</p>
             `;
             resultDiv.classList.add('visible');

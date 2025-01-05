@@ -71,6 +71,13 @@ button:hover {
     max-width: 500px;
 }
 
+#weather-result .temperature {
+    font-size: 48px;
+    font-weight: bold;
+    margin: 10px 0;
+    text-align: center;
+}
+
 /* Weather result styling when it is visible */
 #weather-result.visible {
     display: block; /* Show when content is added dynamically */
@@ -83,6 +90,11 @@ button:hover {
 #weather-result p {
     color: #d1d1d1;
     margin: 5px 0;
+}
+
+.superscript {
+    font-size: 0.6em;
+    vertical-align: super;
 }
 
 /* Responsive Design */
