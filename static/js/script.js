@@ -6,6 +6,7 @@ document.getElementById('weather-form').addEventListener('submit', async (event)
 
     // Clear previous results
     resultDiv.innerHTML = '';
+    resultDiv.classList.remove('visible');
 
     try {
         // Send the city to the backend
@@ -33,12 +34,15 @@ document.getElementById('weather-form').addEventListener('submit', async (event)
                 <p>Temperature: ${Math.round(data.main.temp)} °F</p>
                 <p>Humidity: ${data.main.humidity}%</p>
             `;
+            resultDiv.classList.add('visible');
         } else {
             // Display the error message
             resultDiv.innerHTML = `<p>Error: ${data.error}</p>`;
+            resultDiv.classList.add('visible');
         }
     } catch (error) {
         // Handle network errors
         resultDiv.innerHTML = `<p>Error: Unable to fetch weather data</p>`;
+        resultDiv.classList.add('visible');
     }
 });
