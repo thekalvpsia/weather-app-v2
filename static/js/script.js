@@ -19,8 +19,11 @@ document.getElementById('weather-form').addEventListener('submit', async (event)
         const data = await response.json();
 
         if (response.ok) {
+            const current = data.current;
+            const forecast = data.forecast;
+            
             // Get the timezone offset (in seconds) from the API response
-            const timezoneOffset = data.timezone; // Offset in seconds
+            const timezoneOffset = current.timezone; // Offset in seconds
             const utcTime = new Date().getTime() + new Date().getTimezoneOffset() * 60000; // UTC time in milliseconds
             const localTime = new Date(utcTime + timezoneOffset * 1000); // Adjust to location's timezone
             
@@ -29,27 +32,38 @@ document.getElementById('weather-form').addEventListener('submit', async (event)
             const formattedDay = localTime.toLocaleDateString(undefined, options);
             const formattedTime = localTime.toLocaleTimeString(undefined, { hour: 'numeric', minute: '2-digit' });
             
+            // Extract only the next 8 entries (24 hours)
+            const forecastEntries = forecast.list.slice(0, 8);
+            const times = forecastEntries.map((entry) =>
+                new Date(entry.dt * 1000).toLocaleTimeString([], { hour: 'numeric', hour12: true })
+            );
+            const temps = forecastEntries.map((entry) => entry.main.temp);
+
             // Populate the weather result and show the container
             resultDiv.innerHTML = `
-                <h2>Weather in ${data.name}</h2>
+                <h2>Weather in ${current.name}</h2>
                 <p style="margin-top: -20px; font-size: 14px; color: #aaaaaa;">${formattedDay} ${formattedTime}</p>
                 <img 
-                    src="https://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png" 
-                    alt="${data.weather[0].description}" 
+                    src="https://openweathermap.org/img/wn/${current.weather[0].icon}@2x.png" 
+                    alt="${current.weather[0].description}" 
                     class="weather-icon"
                 />
                 <p class="temperature">
-                    ${Math.round(data.main.temp)}<span class="superscript">°F</span>
+                    ${Math.round(current.main.temp)}<span class="superscript">°F</span>
                 </p>
                 <p style="font-size: 18px; margin: 5px 0; color: #cccccc;">
-                    Feels like: ${Math.round(data.main.feels_like)}<span class="superscript">°F</span>
+                    Feels like: ${Math.round(current.main.feels_like)}<span class="superscript">°F</span>
                 </p>
-                <p>Description: ${data.weather[0].description}</p>
-                <p>Precipitation: ${getPrecipitation(data)}</p>
-                <p>Humidity: ${data.main.humidity}%</p>
-                <p>Wind: ${Math.round(data.wind.speed)} mph</p>
+                <p>Description: ${current.weather[0].description}</p>
+                <p>Precipitation: ${getPrecipitation(current)}</p>
+                <p>Humidity: ${current.main.humidity}%</p>
+                <p>Wind: ${Math.round(current.wind.speed)} mph</p>
+                <canvas id="forecastChart" width="400" height="200" style="margin-top: 20px;"></canvas>
             `;
             resultDiv.classList.add('visible');
+
+            // Render the 24-hour temperature forecast graph
+            renderForecastGraph(times, temps);
         } else {
             // Display the error message
             resultDiv.innerHTML = `<p>Error: ${data.error}</p>`;
@@ -61,6 +75,76 @@ document.getElementById('weather-form').addEventListener('submit', async (event)
         resultDiv.classList.add('visible');
     }
 });
+
+// Function to render the forecast graph using Chart.js
+function renderForecastGraph(times, temps) {
+    const ctx = document.getElementById('forecastChart').getContext('2d');
+    new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: times,
+            datasets: [
+                {
+                    label: 'Temperature',
+                    data: temps,
+                    borderColor: 'rgba(255, 255, 255, 1)',
+                    backgroundColor: 'rgba(255, 255, 255, 0.2)',
+                    borderWidth: 2,
+                    pointBackgroundColor: 'rgba(255, 255, 255, 1)',
+                    pointRadius: 4,
+                    fill: true
+                }
+            ]
+        },
+        options: {
+            plugins: {
+                legend: {
+                    onClick: null, // Disable toggling of datasets when clicking on legend
+                    labels: {
+                        color: 'rgba(255, 255, 255, 0.8)'
+                    }
+                },
+                datalabels: {
+                    display: true,
+                    color: 'rgba(255, 255, 255, 1)',
+                    font: {
+                        size: 10,
+                        weight: 'bold'
+                    },
+                    align: 'top',
+                    formatter: (value) => `${Math.round(value)}`
+                },
+                tooltip: {
+                    enabled: false
+                }
+            },
+            scales: {
+                x: {
+                    title: {
+                        display: true,
+                        color: 'rgba(255, 255, 255, 0.8)'
+                    },
+                    ticks: {
+                        color: 'rgba(255, 255, 255, 0.8)'
+                    }
+                },
+                y: {
+                    title: {
+                        display: true,
+                        color: 'rgba(255, 255, 255, 0.8)'
+                    },
+                    ticks: {
+                        color: 'rgba(255, 255, 255, 0.8)'
+                    }
+                }
+            },
+            layout: {
+                padding: 20 // Add some padding for better readability
+            }
+        },
+        plugins: [ChartDataLabels] // Enable the datalabels plugin
+    });
+}
 
 // Function to get precipitation in mm
 function getPrecipitation(data) {
