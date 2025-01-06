@@ -80,7 +80,8 @@ button:focus {
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
     max-width: 500px;
     opacity: 0;
-    transition: opacity 0.5s ease, visibility 0.5s ease;
+    transform: translateY(-20px);
+    transition: opacity 0.5s ease, transform 0.5s ease, visibility 0.5s ease;
 }
 
 #weather-result .temperature {
@@ -94,6 +95,7 @@ button:focus {
 #weather-result.visible {
     visibility: visible;
     opacity: 1;
+    transform: translateY(0);
 }
 
 #weather-result h2 {
