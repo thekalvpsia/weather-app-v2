@@ -33,6 +33,11 @@ document.getElementById('weather-form').addEventListener('submit', async (event)
             resultDiv.innerHTML = `
                 <h2>Weather in ${data.name}</h2>
                 <p style="margin-top: -20px; font-size: 14px; color: #aaaaaa;">${formattedDay} ${formattedTime}</p>
+                <img 
+                    src="https://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png" 
+                    alt="${data.weather[0].description}" 
+                    class="weather-icon"
+                />
                 <p class="temperature">
                     ${Math.round(data.main.temp)}<span class="superscript">°F</span>
                 </p>

@@ -92,6 +92,13 @@ button:hover {
     margin: 5px 0;
 }
 
+.weather-icon {
+    display: block;
+    margin: 10px auto;
+    width: 100px;
+    height: 100px;
+}
+
 .superscript {
     font-size: 0.6em;
     vertical-align: super;
