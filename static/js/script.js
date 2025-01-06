@@ -42,7 +42,7 @@ document.getElementById('weather-form').addEventListener('submit', async (event)
                     ${Math.round(data.main.temp)}<span class="superscript">°F</span>
                 </p>
                 <p>Description: ${data.weather[0].description}</p>
-                <p>Precipitation: ${getPrecipitation(data)}%</p>
+                <p>Precipitation: ${getPrecipitation(data)}</p>
                 <p>Humidity: ${data.main.humidity}%</p>
                 <p>Wind: ${Math.round(data.wind.speed)} mph</p>
             `;
@@ -59,12 +59,12 @@ document.getElementById('weather-form').addEventListener('submit', async (event)
     }
 });
 
-// Function to calculate precipitation percentage
+// Function to get precipitation in mm
 function getPrecipitation(data) {
     if (data.rain && data.rain["1h"]) {
-        return Math.round(data.rain["1h"] * 100); // Rain in mm for the last hour
+        return `${data.rain["1h"]} mm`; // Rain in the last hour
     } else if (data.snow && data.snow["1h"]) {
-        return Math.round(data.snow["1h"] * 100); // Snow in mm for the last hour
+        return `${data.snow["1h"]} mm`; // Snow in the last hour
     }
-    return 0; // No precipitation data available
+    return `0 mm`; // No precipitation data available
 }
