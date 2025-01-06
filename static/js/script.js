@@ -37,7 +37,9 @@ document.getElementById('weather-form').addEventListener('submit', async (event)
                     ${Math.round(data.main.temp)}<span class="superscript">°F</span>
                 </p>
                 <p>Description: ${data.weather[0].description}</p>
+                <p>Precipitation: ${getPrecipitation(data)}%</p>
                 <p>Humidity: ${data.main.humidity}%</p>
+                <p>Wind: ${Math.round(data.wind.speed)} mph</p>
             `;
             resultDiv.classList.add('visible');
         } else {
@@ -51,3 +53,13 @@ document.getElementById('weather-form').addEventListener('submit', async (event)
         resultDiv.classList.add('visible');
     }
 });
+
+// Function to calculate precipitation percentage
+function getPrecipitation(data) {
+    if (data.rain && data.rain["1h"]) {
+        return Math.round(data.rain["1h"] * 100); // Rain in mm for the last hour
+    } else if (data.snow && data.snow["1h"]) {
+        return Math.round(data.snow["1h"] * 100); // Snow in mm for the last hour
+    }
+    return 0; // No precipitation data available
+}
