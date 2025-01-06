@@ -41,6 +41,9 @@ document.getElementById('weather-form').addEventListener('submit', async (event)
                 <p class="temperature">
                     ${Math.round(data.main.temp)}<span class="superscript">°F</span>
                 </p>
+                <p style="font-size: 18px; margin: 5px 0; color: #cccccc;">
+                    Feels like: ${Math.round(data.main.feels_like)}<span class="superscript">°F</span>
+                </p>
                 <p>Description: ${data.weather[0].description}</p>
                 <p>Precipitation: ${getPrecipitation(data)}</p>
                 <p>Humidity: ${data.main.humidity}%</p>
