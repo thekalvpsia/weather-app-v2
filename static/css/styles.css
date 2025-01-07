@@ -194,6 +194,34 @@ button:focus {
     margin-right: 10px; /* Spacing between icon and text */
 }
 
+#search-button {
+    width: 50px; /* Width of the button */
+    height: 50px; /* Height of the button */
+    border: none;
+    border-radius: 50%; /* Make the button circular */
+    background-color: rgba(255, 255, 255, 0.9); /* Light background */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+#search-button:hover {
+    background-color: rgba(255, 255, 255, 1); /* Brighter on hover */
+    transform: scale(1.1); /* Slight zoom on hover */
+}
+
+#search-button:active {
+    background-color: rgba(230, 230, 230, 0.9); /* Slightly dimmer when clicked */
+    transform: scale(1.0); /* Reset zoom */
+}
+
+.search-icon {
+    width: 20px; /* Adjust icon size */
+    height: 20px;
+}
+
 /* Responsive Design */
 @media (max-width: 768px) {
     body {
