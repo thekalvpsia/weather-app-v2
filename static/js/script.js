@@ -44,6 +44,7 @@ document.getElementById('weather-form').addEventListener('submit', async (event)
             resultDiv.innerHTML = `
                 <h2>Weather in ${current.name}</h2>
                 <p style="margin-top: -20px; font-size: 14px; color: #aaaaaa;">${formattedDay} ${formattedTime}</p>
+                <p style="margin-top: -5px; font-size: 14px; color: #aaaaaa; text-transform: capitalize">${current.weather[0].description}</p>
                 <img 
                     src="https://openweathermap.org/img/wn/${current.weather[0].icon}@2x.png" 
                     alt="${current.weather[0].description}" 
@@ -58,7 +59,6 @@ document.getElementById('weather-form').addEventListener('submit', async (event)
                 <p style="font-size: 18px; margin: 5px 0; color: #cccccc;">
                     Feels like: ${Math.round(current.main.feels_like)}<span class="superscript">°${unit === 'imperial' ? 'F' : 'C'}</span>
                 </p>
-                <p>Description: ${current.weather[0].description}</p>
                 <div class="weather-stats">
                     <div class="stat">
                         <img src="/static/images/precipitation.png" alt="Precipitation Icon" class="stat-icon" />
@@ -226,6 +226,7 @@ function switchUnit(unit) {
                 resultDiv.innerHTML = `
                     <h2>Weather in ${current.name}</h2>
                     <p style="margin-top: -20px; font-size: 14px; color: #aaaaaa;">${formattedDay} ${formattedTime}</p>
+                    <p style="margin-top: -5px; font-size: 14px; color: #aaaaaa; text-transform: capitalize">${current.weather[0].description}</p>
                     <img 
                         src="https://openweathermap.org/img/wn/${current.weather[0].icon}@2x.png" 
                         alt="${current.weather[0].description}" 
@@ -240,7 +241,6 @@ function switchUnit(unit) {
                     <p style="font-size: 18px; margin: 5px 0; color: #cccccc;">
                         Feels like: ${Math.round(current.main.feels_like)}<span class="superscript">°${unit === 'imperial' ? 'F' : 'C'}</span>
                     </p>
-                    <p>Description: ${current.weather[0].description}</p>
                     <div class="weather-stats">
                         <div class="stat">
                             <img src="/static/images/precipitation.png" alt="Precipitation Icon" class="stat-icon" />
