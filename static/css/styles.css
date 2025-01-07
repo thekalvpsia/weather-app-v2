@@ -119,6 +119,35 @@ button:focus {
     vertical-align: super;
 }
 
+.temperature {
+    font-size: 48px; /* Main temperature font size */
+    font-weight: bold;
+    display: flex;
+    align-items: flex-start; /* Align superscript toggle properly */
+    gap: 5px;
+    justify-content: center;
+}
+
+.superscript-toggle {
+    font-size: 18px; /* Smaller font for the toggle */
+    vertical-align: top; /* Align toggle to the top of the temperature */
+    color: rgba(255, 255, 255, 0.6); /* Inactive state color */
+    cursor: pointer;
+}
+
+.superscript-toggle .active {
+    color: rgba(255, 255, 255, 1); /* Highlight active unit */
+    font-weight: bold;
+}
+
+.superscript-toggle span {
+    transition: color 0.3s ease;
+}
+
+.superscript-toggle span:hover {
+    color: rgba(255, 255, 255, 0.8); /* Slightly brighter on hover */
+}
+
 /* Responsive Design */
 @media (max-width: 768px) {
     body {

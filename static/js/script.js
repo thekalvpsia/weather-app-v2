@@ -21,6 +21,7 @@ document.getElementById('weather-form').addEventListener('submit', async (event)
         if (response.ok) {
             const current = data.current;
             const forecast = data.forecast;
+            const unit = data.unit;
             
             // Get the timezone offset (in seconds) from the API response
             const timezoneOffset = current.timezone; // Offset in seconds
@@ -48,22 +49,34 @@ document.getElementById('weather-form').addEventListener('submit', async (event)
                     alt="${current.weather[0].description}" 
                     class="weather-icon"
                 />
-                <p class="temperature">
-                    ${Math.round(current.main.temp)}<span class="superscript">°F</span>
-                </p>
+                <div class="temperature">
+                    ${Math.round(current.main.temp)}<span class="superscript-toggle">
+                        <span id="switch-to-f" class="${unit === 'imperial' ? 'active' : ''}">°F</span> |
+                        <span id="switch-to-c" class="${unit === 'metric' ? 'active' : ''}">°C</span>
+                    </span>
+                </div>
                 <p style="font-size: 18px; margin: 5px 0; color: #cccccc;">
-                    Feels like: ${Math.round(current.main.feels_like)}<span class="superscript">°F</span>
+                    Feels like: ${Math.round(current.main.feels_like)}<span class="superscript">°${unit === 'imperial' ? 'F' : 'C'}</span>
                 </p>
                 <p>Description: ${current.weather[0].description}</p>
                 <p>Precipitation: ${getPrecipitation(current)}</p>
                 <p>Humidity: ${current.main.humidity}%</p>
-                <p>Wind: ${Math.round(current.wind.speed)} mph</p>
+                <p>Wind: ${Math.round(current.wind.speed)} ${unit === 'imperial' ? 'mph' : 'm/s'}</p>
                 <canvas id="forecastChart" width="400" height="200" style="margin-top: 20px;"></canvas>
             `;
             resultDiv.classList.add('visible');
 
             // Render the 24-hour temperature forecast graph
             renderForecastGraph(times, temps);
+
+            // Handle unit toggle
+            document.getElementById('switch-to-f').addEventListener('click', () => {
+                switchUnit('imperial');
+            });
+            
+            document.getElementById('switch-to-c').addEventListener('click', () => {
+                switchUnit('metric');
+            });
         } else {
             // Display the error message
             resultDiv.innerHTML = `<p>Error: ${data.error}</p>`;
@@ -154,4 +167,83 @@ function getPrecipitation(data) {
         return `${data.snow["1h"]} mm`; // Snow in the last hour
     }
     return `0 mm`; // No precipitation data available
+}
+
+function switchUnit(unit) {
+    const city = document.getElementById('city-input').value;
+
+    fetch('/weather', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ city, unit })
+    })
+        .then(response => response.json())
+        .then(data => {
+            if (data.current) {
+                const current = data.current;
+                const forecast = data.forecast;
+
+                // Get the timezone offset (in seconds) from the API response
+                const timezoneOffset = current.timezone; // Offset in seconds
+                const utcTime = new Date().getTime() + new Date().getTimezoneOffset() * 60000; // UTC time in milliseconds
+                const localTime = new Date(utcTime + timezoneOffset * 1000); // Adjust to location's timezone
+
+                // Format the local time and day
+                const options = { weekday: 'long' };
+                const formattedDay = localTime.toLocaleDateString(undefined, options);
+                const formattedTime = localTime.toLocaleTimeString(undefined, { hour: 'numeric', minute: '2-digit' });
+
+                // Extract only the next 8 entries (24 hours)
+                const forecastEntries = forecast.list.slice(0, 8);
+                const times = forecastEntries.map((entry) =>
+                    new Date(entry.dt * 1000).toLocaleTimeString([], { hour: 'numeric', hour12: true })
+                );
+                const temps = forecastEntries.map((entry) => entry.main.temp);
+
+                // Update the weather result
+                const resultDiv = document.getElementById('weather-result');
+                resultDiv.innerHTML = `
+                    <h2>Weather in ${current.name}</h2>
+                    <p style="margin-top: -20px; font-size: 14px; color: #aaaaaa;">${formattedDay} ${formattedTime}</p>
+                    <img 
+                        src="https://openweathermap.org/img/wn/${current.weather[0].icon}@2x.png" 
+                        alt="${current.weather[0].description}" 
+                        class="weather-icon"
+                    />
+                    <div class="temperature">
+                        ${Math.round(current.main.temp)}<span class="superscript-toggle">
+                            <span id="switch-to-f" class="${unit === 'imperial' ? 'active' : ''}">°F</span> |
+                            <span id="switch-to-c" class="${unit === 'metric' ? 'active' : ''}">°C</span>
+                        </span>
+                    </div>
+                    <p style="font-size: 18px; margin: 5px 0; color: #cccccc;">
+                        Feels like: ${Math.round(current.main.feels_like)}<span class="superscript">°${unit === 'imperial' ? 'F' : 'C'}</span>
+                    </p>
+                    <p>Description: ${current.weather[0].description}</p>
+                    <p>Precipitation: ${getPrecipitation(current)}</p>
+                    <p>Humidity: ${current.main.humidity}%</p>
+                    <p>Wind: ${Math.round(current.wind.speed)} ${unit === 'imperial' ? 'mph' : 'm/s'}</p>
+                    <canvas id="forecastChart" width="400" height="200" style="margin-top: 20px;"></canvas>
+                `;
+
+                resultDiv.classList.add('visible');
+
+                // Render the 24-hour temperature forecast graph
+                renderForecastGraph(times, temps);
+
+                // Reattach event listeners for unit switching
+                document.getElementById('switch-to-f').addEventListener('click', () => {
+                    switchUnit('imperial');
+                });
+
+                document.getElementById('switch-to-c').addEventListener('click', () => {
+                    switchUnit('metric');
+                });
+            } else {
+                console.error('Error fetching updated weather data:', data.error || 'Unknown error');
+            }
+        })
+        .catch(err => {
+            console.error('Failed to switch units:', err);
+        });
 }
