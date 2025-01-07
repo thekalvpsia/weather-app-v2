@@ -105,7 +105,7 @@ function renderForecastGraph(times, temps) {
                     borderWidth: 2,
                     pointBackgroundColor: 'rgba(255, 255, 255, 1)',
                     pointRadius: 4,
-                    fill: true
+                    fill: 'start'
                 }
             ]
         },
@@ -134,8 +134,7 @@ function renderForecastGraph(times, temps) {
             scales: {
                 x: {
                     title: {
-                        display: true,
-                        color: 'rgba(255, 255, 255, 0.8)'
+                        display: false
                     },
                     ticks: {
                         color: 'rgba(255, 255, 255, 0.8)'
@@ -143,11 +142,13 @@ function renderForecastGraph(times, temps) {
                 },
                 y: {
                     title: {
-                        display: true,
-                        color: 'rgba(255, 255, 255, 0.8)'
+                        display: false
                     },
                     ticks: {
-                        color: 'rgba(255, 255, 255, 0.8)'
+                        callback: () => '',
+                    },
+                    grid: {
+                        drawTicks: false
                     }
                 }
             },
