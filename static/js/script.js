@@ -59,9 +59,20 @@ document.getElementById('weather-form').addEventListener('submit', async (event)
                     Feels like: ${Math.round(current.main.feels_like)}<span class="superscript">°${unit === 'imperial' ? 'F' : 'C'}</span>
                 </p>
                 <p>Description: ${current.weather[0].description}</p>
-                <p>Precipitation: ${getPrecipitation(current)}</p>
-                <p>Humidity: ${current.main.humidity}%</p>
-                <p>Wind: ${Math.round(current.wind.speed)} ${unit === 'imperial' ? 'mph' : 'm/s'}</p>
+                <div class="weather-stats">
+                    <div class="stat">
+                        <img src="/static/images/precipitation.png" alt="Precipitation Icon" class="stat-icon" />
+                        <span>Precipitation: ${getPrecipitation(current)}</span>
+                    </div>
+                    <div class="stat">
+                        <img src="/static/images/humidity.png" alt="Humidity Icon" class="stat-icon" />
+                        <span>Humidity: ${current.main.humidity}%</span>
+                    </div>
+                    <div class="stat">
+                        <img src="/static/images/wind.png" alt="Wind Icon" class="stat-icon" />
+                        <span>Wind: ${Math.round(current.wind.speed)} ${unit === 'imperial' ? 'mph' : 'm/s'}</span>
+                    </div>
+                </div>
                 <canvas id="forecastChart" width="400" height="200" style="margin-top: 20px;"></canvas>
             `;
             resultDiv.classList.add('visible');
@@ -221,9 +232,20 @@ function switchUnit(unit) {
                         Feels like: ${Math.round(current.main.feels_like)}<span class="superscript">°${unit === 'imperial' ? 'F' : 'C'}</span>
                     </p>
                     <p>Description: ${current.weather[0].description}</p>
-                    <p>Precipitation: ${getPrecipitation(current)}</p>
-                    <p>Humidity: ${current.main.humidity}%</p>
-                    <p>Wind: ${Math.round(current.wind.speed)} ${unit === 'imperial' ? 'mph' : 'm/s'}</p>
+                    <div class="weather-stats">
+                        <div class="stat">
+                            <img src="/static/images/precipitation.png" alt="Precipitation Icon" class="stat-icon" />
+                            <span>Precipitation: ${getPrecipitation(current)}</span>
+                        </div>
+                        <div class="stat">
+                            <img src="/static/images/humidity.png" alt="Humidity Icon" class="stat-icon" />
+                            <span>Humidity: ${current.main.humidity}%</span>
+                        </div>
+                        <div class="stat">
+                            <img src="/static/images/wind.png" alt="Wind Icon" class="stat-icon" />
+                            <span>Wind: ${Math.round(current.wind.speed)} ${unit === 'imperial' ? 'mph' : 'm/s'}</span>
+                        </div>
+                    </div>
                     <canvas id="forecastChart" width="400" height="200" style="margin-top: 20px;"></canvas>
                 `;
 
