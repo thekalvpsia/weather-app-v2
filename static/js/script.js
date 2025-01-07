@@ -62,15 +62,24 @@ document.getElementById('weather-form').addEventListener('submit', async (event)
                 <div class="weather-stats">
                     <div class="stat">
                         <img src="/static/images/precipitation.png" alt="Precipitation Icon" class="stat-icon" />
-                        <span>Precipitation: ${getPrecipitation(current)}</span>
+                        <div>
+                            <p class="stat-value"> ${getPrecipitation(current)} </p>
+                            <p class="stat-label">Precipitation</p>
+                        </div>
                     </div>
                     <div class="stat">
                         <img src="/static/images/humidity.png" alt="Humidity Icon" class="stat-icon" />
-                        <span>Humidity: ${current.main.humidity}%</span>
+                        <div>
+                            <p class="stat-value">${current.main.humidity}%</p>
+                            <p class="stat-label">Humidity</p>
+                        </div>
                     </div>
                     <div class="stat">
                         <img src="/static/images/wind.png" alt="Wind Icon" class="stat-icon" />
-                        <span>Wind: ${Math.round(current.wind.speed)} ${unit === 'imperial' ? 'mph' : 'm/s'}</span>
+                        <div>
+                            <p class="stat-value">${Math.round(current.wind.speed)} ${unit === 'imperial' ? 'mph' : 'm/s'}</p>
+                            <p class="stat-label">Wind</p>
+                        </div>
                     </div>
                 </div>
                 <canvas id="forecastChart" width="400" height="200" style="margin-top: 20px;"></canvas>
@@ -235,15 +244,24 @@ function switchUnit(unit) {
                     <div class="weather-stats">
                         <div class="stat">
                             <img src="/static/images/precipitation.png" alt="Precipitation Icon" class="stat-icon" />
-                            <span>Precipitation: ${getPrecipitation(current)}</span>
+                            <div>
+                                <p class="stat-value"> ${getPrecipitation(current)} </p>
+                                <p class="stat-label">Precipitation</p>
+                            </div>
                         </div>
                         <div class="stat">
                             <img src="/static/images/humidity.png" alt="Humidity Icon" class="stat-icon" />
-                            <span>Humidity: ${current.main.humidity}%</span>
+                            <div>
+                                <p class="stat-value">${current.main.humidity}%</p>
+                                <p class="stat-label">Humidity</p>
+                            </div>
                         </div>
                         <div class="stat">
                             <img src="/static/images/wind.png" alt="Wind Icon" class="stat-icon" />
-                            <span>Wind: ${Math.round(current.wind.speed)} ${unit === 'imperial' ? 'mph' : 'm/s'}</span>
+                            <div>
+                                <p class="stat-value">${Math.round(current.wind.speed)} ${unit === 'imperial' ? 'mph' : 'm/s'}</p>
+                                <p class="stat-label">Wind</p>
+                            </div>
                         </div>
                     </div>
                     <canvas id="forecastChart" width="400" height="200" style="margin-top: 20px;"></canvas>
