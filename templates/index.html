@@ -3,7 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Weather App</title>
+    <title>Weather</title>
+    <link rel="stylesheet" href="/static/css/styles.css">
+    <link rel="preload" href="/static/images/search-icon.png" as="image">
+    <link rel="icon" href="/static/images/favicon.png" type="image/png">
 </head>
 <body>
     <div class="content-wrapper">
@@ -11,15 +14,11 @@
             <form id="weather-form">
                 <input type="text" id="city-input" placeholder="Enter city name" required>
                 <button type="submit" id="search-button">
-                    <img src="/static/images/search-icon.png" alt="Search Icon" class="search-icon" />
+                    <img src="/static/images/search-icon.png" alt="Search Icon" class="search-icon" loading="lazy" />
                 </button>
             </form>
             <section id="weather-result"></section>
         </main>
-        <script src="/static/js/script.js"></script>
-        <link rel="stylesheet" href="/static/css/styles.css">
-        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
     </div>
     <footer class="footer">
         <p>
@@ -36,5 +35,8 @@
             </a>
         </div>
     </footer>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
+    <script src="/static/js/script.js"></script>
 </body>
 </html>
