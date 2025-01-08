@@ -7,6 +7,17 @@ body {
     color: #ffffff;
     text-align: center;
     line-height: 1.6;
+    opacity: 0;
+    animation: fadeIn 1s ease-in forwards;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
 }
 
 /* Container for the Weather App */
