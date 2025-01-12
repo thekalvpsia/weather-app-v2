@@ -200,6 +200,7 @@ button:focus {
 }
 
 .stat-icon {
+    filter: invert(1);
     width: 24px; /* Icon size */
     height: 24px;
     margin-right: 10px; /* Spacing between icon and text */
@@ -301,6 +302,12 @@ main {
 
 form#weather-form {
     margin: 0 auto;
+}
+
+.precipitation-icon {
+    width: 24px !important;
+    height: 24px !important;
+    margin-top: 4px;
 }
 
 /* Responsive Design */

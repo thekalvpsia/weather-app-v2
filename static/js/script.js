@@ -61,14 +61,14 @@ document.getElementById('weather-form').addEventListener('submit', async (event)
                 </p>
                 <div class="weather-stats">
                     <div class="stat">
-                        <img src="/static/images/precipitation.png" alt="Precipitation Icon" class="stat-icon" />
+                        <img src="/static/images/precipitation-filled.png" alt="Precipitation Icon" class="stat-icon precipitation-icon" />
                         <div>
                             <p class="stat-value"> ${getPrecipitation(current)} </p>
                             <p class="stat-label">Precipitation</p>
                         </div>
                     </div>
                     <div class="stat">
-                        <img src="/static/images/humidity.png" alt="Humidity Icon" class="stat-icon" />
+                        <img src="/static/images/humidity-filled.png" alt="Humidity Icon" class="stat-icon" />
                         <div>
                             <p class="stat-value">${current.main.humidity}%</p>
                             <p class="stat-label">Humidity</p>
@@ -243,14 +243,14 @@ function switchUnit(unit) {
                     </p>
                     <div class="weather-stats">
                         <div class="stat">
-                            <img src="/static/images/precipitation.png" alt="Precipitation Icon" class="stat-icon" />
+                            <img src="/static/images/precipitation-filled.png" alt="Precipitation Icon" class="stat-icon precipitation-icon" />
                             <div>
                                 <p class="stat-value"> ${getPrecipitation(current)} </p>
                                 <p class="stat-label">Precipitation</p>
                             </div>
                         </div>
                         <div class="stat">
-                            <img src="/static/images/humidity.png" alt="Humidity Icon" class="stat-icon" />
+                            <img src="/static/images/humidity-filled.png" alt="Humidity Icon" class="stat-icon" />
                             <div>
                                 <p class="stat-value">${current.main.humidity}%</p>
                                 <p class="stat-label">Humidity</p>
