@@ -13,7 +13,7 @@ A sleek and minimalist weather application that provides real-time weather data,
 - Dark theme with responsive design for modern browsers.
 
 ## Demo
-[Link to Live Demo](#)
+[Link to Live Demo](https://aris-weather-app.onrender.com/)
 
 ## Tech Stack
 - **Frontend**:
@@ -23,7 +23,7 @@ A sleek and minimalist weather application that provides real-time weather data,
   - Python Flask
   - OpenWeatherMap API
 - **Hosting**:
-  - ()
+  - Render
 
 ## Installation
 Follow these steps to run the project locally:
